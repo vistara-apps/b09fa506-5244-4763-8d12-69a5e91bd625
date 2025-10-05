@@ -1,0 +1,14 @@
+{
+  "name": "ProposalFlow AI",
+  "description": "ProposalFlow AI is a Base Mini App built with Zara.",
+  "image": "https://dummyimage.com/1200x628/0a0b0d/ffffff.png&text=OG",
+  "external_url": "https://b09fa506-5244-4763-8d12-69a5e91bd625.vercel.app",
+  "properties": {
+    "app": {
+      "name": "ProposalFlow AI",
+      "description": "ProposalFlow AI is a Base Mini App built with Zara.",
+      "url": "https://b09fa506-5244-4763-8d12-69a5e91bd625.vercel.app",
+      "icon": "https://0co.to/images/zara-2.png"
+    }
+  }
+}
