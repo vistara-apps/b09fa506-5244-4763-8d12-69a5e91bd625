@@ -1,9 +1,11 @@
 'use client';
 
-import { type ReactNode } from 'react';
-import { Sparkles, Vote, Plus } from 'lucide-react';
+import { type ReactNode, useEffect, useState } from 'react';
+import { Sparkles, Vote, Plus, User, LogIn } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { AuthService } from '@/lib/auth';
+import { AICreditManager } from '@/lib/ai-credits';
 
 interface AppShellProps {
   children: ReactNode;
@@ -11,6 +13,31 @@ interface AppShellProps {
 
 export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [credits, setCredits] = useState(0);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const currentUser = await AuthService.getCurrentUser();
+      setUser(currentUser);
+
+      if (currentUser) {
+        const userCredits = await AICreditManager.getUserCredits(currentUser.userId);
+        setCredits(userCredits);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const handleAuthClick = () => {
+    if (user) {
+      router.push('/profile');
+    } else {
+      router.push('/auth');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-bg">
@@ -27,12 +54,20 @@ export function AppShell({ children }: AppShellProps) {
                 <p className="text-xs text-gray-400">Community Governance</p>
               </div>
             </div>
-            <Link href="/create">
-              <button className="btn-primary flex items-center gap-2 text-sm">
-                <Plus className="w-4 h-4" />
-                Create
-              </button>
-            </Link>
+            <div className="flex items-center gap-3">
+              {user && (
+                <div className="text-right">
+                  <p className="text-xs text-gray-400">Credits</p>
+                  <p className="text-sm font-semibold text-accent">{credits}</p>
+                </div>
+              )}
+              <Link href="/create">
+                <button className="btn-primary flex items-center gap-2 text-sm">
+                  <Plus className="w-4 h-4" />
+                  Create
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -54,10 +89,13 @@ export function AppShell({ children }: AppShellProps) {
               <Plus className="w-6 h-6" />
               <span className="text-xs font-medium">Create</span>
             </Link>
-            <Link href="/profile" className={`flex flex-col items-center gap-1 ${pathname === '/profile' ? 'text-accent' : 'text-gray-400'}`}>
-              <Sparkles className="w-6 h-6" />
-              <span className="text-xs font-medium">Profile</span>
-            </Link>
+            <button
+              onClick={handleAuthClick}
+              className={`flex flex-col items-center gap-1 ${pathname === '/auth' || pathname === '/profile' ? 'text-accent' : 'text-gray-400'}`}
+            >
+              {user ? <User className="w-6 h-6" /> : <LogIn className="w-6 h-6" />}
+              <span className="text-xs font-medium">{user ? 'Profile' : 'Auth'}</span>
+            </button>
           </div>
         </div>
       </nav>
