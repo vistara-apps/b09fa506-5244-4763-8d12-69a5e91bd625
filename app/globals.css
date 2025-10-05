@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Warm Social Theme - Dark Teal & Coral */
+  --color-bg: hsl(185, 35%, 12%);
+  --color-fg: hsl(185, 10%, 90%);
+  --color-accent: #ff6b6b;
+  --color-primary: hsl(185, 40%, 45%);
+  --color-surface: hsl(185, 35%, 18%);
+  
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  
+  --shadow-card: 0 4px 12px hsla(0, 0%, 0%, 0.1);
+}
+
+[data-theme="celo"] {
+  --color-bg: hsl(0, 0%, 0%);
+  --color-fg: hsl(0, 0%, 100%);
+  --color-accent: #fbcc5c;
+  --color-primary: #fbcc5c;
+  --color-surface: hsl(0, 0%, 10%);
+  --radius-lg: 4px;
+  --radius-md: 2px;
+  --radius-sm: 2px;
+}
+
+[data-theme="solana"] {
+  --color-bg: hsl(270, 50%, 10%);
+  --color-fg: hsl(0, 0%, 100%);
+  --color-accent: hsl(290, 70%, 60%);
+  --color-primary: hsl(270, 60%, 50%);
+  --color-surface: hsl(270, 50%, 15%);
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+}
+
+[data-theme="base"] {
+  --color-bg: hsl(210, 50%, 10%);
+  --color-fg: hsl(210, 10%, 90%);
+  --color-accent: #0052ff;
+  --color-primary: #0052ff;
+  --color-surface: hsl(210, 50%, 15%);
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+}
+
+[data-theme="coinbase"] {
+  --color-bg: hsl(220, 40%, 10%);
+  --color-fg: hsl(220, 10%, 90%);
+  --color-accent: #0052ff;
+  --color-primary: #0052ff;
+  --color-surface: hsl(220, 40%, 15%);
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+}
+
+@layer base {
+  * {
+    @apply border-gray-700;
+  }
+  
+  body {
+    @apply bg-bg text-fg;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: var(--color-surface);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-card);
+  }
+  
+  .btn-primary {
+    @apply bg-accent text-white px-6 py-3 font-medium hover:opacity-90 transition-all duration-200 shadow-lg hover:shadow-xl;
+    border-radius: var(--radius-md);
+  }
+  
+  .btn-secondary {
+    @apply bg-surface text-fg px-6 py-3 font-medium hover:bg-opacity-80 transition-all duration-200;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .proposal-card {
+    @apply glass-card p-md hover:bg-opacity-90 transition-all duration-200 cursor-pointer;
+    border-radius: var(--radius-lg);
+  }
+  
+  .vote-button {
+    @apply px-4 py-2 font-medium transition-all duration-200;
+    border-radius: var(--radius-sm);
+  }
+  
+  .vote-yes {
+    @apply vote-button bg-green-600 text-white hover:bg-green-700;
+  }
+  
+  .vote-no {
+    @apply vote-button bg-red-600 text-white hover:bg-red-700;
+  }
+  
+  .vote-abstain {
+    @apply vote-button bg-gray-600 text-white hover:bg-gray-700;
+  }
+}
